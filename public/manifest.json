@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Prompt Store",
+  "version": "1.0",
+  "description": "A browser extension to save prompts, tag them, and organize for future reference.",
+  "permissions": ["contextMenus", "storage", "activeTab", "scripting"],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Prompt Store",
+    "default_icon": {
+      "48": "GS48.png"
+    }
+  },
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "icons": {
+    "48": "GS48.png"
+  }
+}
