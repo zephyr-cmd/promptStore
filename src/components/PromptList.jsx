@@ -17,23 +17,30 @@ const PromptList = () => {
 
   const handleDelete = async (id) => {
     await deletePrompt(id);
-    toast("Successfully prompt Deleted", {
+    toast("Prompt deleted successfully", {
       position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
-      progress: undefined,
       theme: "light",
       transition: Bounce,
     });
     loadPrompts();
   };
 
-  const handleSearch = async () => {
-    const results = await searchPromptsByTag(searchTag);
-    setPrompts(results);
+  // Automatically searches as user types
+  const handleSearchTagChange = async (e) => {
+    const tag = e.target.value;
+    setSearchTag(tag);
+
+    if (tag.trim() === "") {
+      loadPrompts();
+    } else {
+      const results = await searchPromptsByTag(tag);
+      setPrompts(results);
+    }
   };
 
   const handleCopy = (content) => {
@@ -47,7 +54,6 @@ const PromptList = () => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined,
           theme: "light",
           transition: Bounce,
         });
@@ -60,7 +66,6 @@ const PromptList = () => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined,
           theme: "dark",
           transition: Bounce,
         });
@@ -74,15 +79,9 @@ const PromptList = () => {
           type="text"
           className="flex-grow size-2/3 p-2 border rounded"
           value={searchTag}
-          onChange={(e) => setSearchTag(e.target.value)}
+          onChange={handleSearchTagChange}
           placeholder="Search by tag"
         />
-        <button
-          className="p-2 bg-blue-500 size-1/3 text-white rounded"
-          onClick={handleSearch}
-        >
-          Search
-        </button>
       </div>
       <ul>
         {prompts.map((prompt) => (

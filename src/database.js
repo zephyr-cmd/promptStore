@@ -24,11 +24,14 @@ export const deletePrompt = async (id) => {
   return db.prompts.delete(id);
 };
 
-// Search prompts by tag only
+// Search prompts by partial tag match
 export const searchPromptsByTag = async (tag) => {
   if (!tag) {
     return db.prompts.toArray();
   }
 
-  return db.prompts.where("tags").anyOf(tag).toArray();
+  // Use .filter to match prompts that include the tag partially
+  return db.prompts
+    .filter((prompt) => prompt.tags.some((t) => t.includes(tag)))
+    .toArray();
 };
